@@ -42,6 +42,7 @@ class PersonalController extends Controller
         $personal->fk_Area = $request->fk_Area;
         $personal->fk_Puesto = $request->fk_Puesto;
         $personal->activo = $request->activo;
+        $personal->nombre = $personal->nombreEmpleado.' '.$personal->apellidoPaterno.' '.$personal->apellidoMaterno;
         $personal->user_create = 1; //$request->user_create;
         $personal->user_update = 1; //$request->user_update;
 
@@ -86,6 +87,7 @@ class PersonalController extends Controller
             $personal->fk_Area = $request->fk_Area;
             $personal->fk_Puesto = $request->fk_Puesto;
             $personal->activo = $request->activo;
+            $personal->nombre = $personal->nombreEmpleado.' '.$personal->apellidoPaterno.' '.$personal->apellidoMaterno;
             $personal->user_update = 1; //$request->user_update;
 
             if ($personal->save()) {

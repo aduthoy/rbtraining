@@ -17,6 +17,8 @@ class personal extends Model
     }
 
     public function TrainingDates() {
-        return $this->belongsToMany('App\TrainingDate','trainingdate_personal')->withTimestamps();
+        return $this->belongsToMany('App\TrainingDate','trainingdate_personal')
+            ->withPivot('estatus', 'calificacion')
+            ->withTimestamps();
     }
 }

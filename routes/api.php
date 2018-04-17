@@ -36,7 +36,33 @@ Route::group(['middleware' => 'cors'], function () {
     Route::put('trainingdates/employee/{TrainingId}', 'TrainingDateController@addTrainingDatesEmployee');
     Route::put('trainingdates/delemployees/{TrainingdateId}', 'TrainingDateController@detachTrainingDatesEmployees');
     Route::put('trainingdates/delemployee/{TrainingdateId}', 'TrainingDateController@detachTrainingDatesEmployee');
+    Route::put('trainingdates/updateStatusEmployeesByTrainingDate/{TrainingId}', 'TrainingDateController@updateStatusEmployeesByTrainingDate');
     Route::get('pdms/{pdmId}/trainingdate','TrainingDateController@getAllTrainingDatesByPdmId');
     Route::resource('carlos','CarlosController');
     Route::get('pdms/getAllPdmsByArea/{areaId}', 'PdmsController@getAllPdmsByArea');
+
+    /***
+     * Rutas para el Dashboard
+    */
+
+    Route::get('dashboard/getProximosaVencerByUserId/{userId}','DashboardController@getProximosaVencerByUserId');
+    Route::get('dashboard/getProgramadosByUserId/{userId}','DashboardController@getProgramadosByUserId');
+    Route::get('dashboard/getCursadosByUserId/{userId}','DashboardController@getCursadosByUserId');
+    Route::get('dashboard/getProximosaVencerGeneralDetalleByUserId/{userId}','DashboardController@getProximosaVencerGeneralDetalleByUserId');
+    Route::get('dashboard/getProximosaVencerEspecificoDetalleByUserId/{userId}','DashboardController@getProximosaVencerEspecificoDetalleByUserId');
+    Route::get('dashboard/getProximosaVencerPDMDetalleByUserId/{userId}','DashboardController@getProximosaVencerPDMDetalleByUserId');
+    Route::get('dashboard/getProgramadosGeneralDetalleByUserId/{userId}','DashboardController@getProgramadosGeneralDetalleByUserId');
+    Route::get('dashboard/getProgramadosEspecificoDetalleByUserId/{userId}','DashboardController@getProgramadosEspecificoDetalleByUserId');
+    Route::get('dashboard/getProgramadosPDMDetalleByUserId/{userId}','DashboardController@getProgramadosPDMDetalleByUserId');
+    Route::get('dashboard/getCursadosGeneralDetalleByUserId/{userId}','DashboardController@getCursadosGeneralDetalleByUserId');
+    Route::get('dashboard/getCursadosEspecificoDetalleByUserId/{userId}','DashboardController@getCursadosEspecificoDetalleByUserId');
+    Route::get('dashboard/getCursadosPDMDetalleByUserId/{userId}','DashboardController@getCursadosPDMDetalleByUserId');
+    Route::post('user/getUserInfoByEMail','Auth\AuthController@getUserInfoByEMail');
+    Route::put('user/updateUserById/{userId}','Auth\AuthController@updateUserById');
+
+    /**
+     * Rutas para autentificacion del usuario
+     */
+
+    Route::post('authenticate','Auth\AuthController@authenticate');
 });

@@ -9,6 +9,7 @@ use App\TrainingDate;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use function Psy\debug;
 
 class TrainingDateController extends Controller
 {
@@ -32,6 +33,7 @@ class TrainingDateController extends Controller
     public function store(Request $request)
     {
         $fecha = new Carbon($request->initial_date,null);
+        //return response($fecha,200);
         $trainingdate = TrainingDate::find($request->id);
         if (!$trainingdate) {
             $trainingdate = new TrainingDate();
@@ -172,6 +174,32 @@ class TrainingDateController extends Controller
         }
         return response($id,404);
 
+    }
+
+    /**
+     * Actualiza la información de los cursos
+     *
+     * @param Request $request
+     * @param int $id
+     */
+    public function updateStatusEmployeesByTrainingDate(Request $request, $id) {
+
+        logger('Curso: '.$id);
+        logger('Info recibida ', $request->toArray());
+        $trainingdate = TrainingDate::find($id);
+        if ($trainingdate) {
+            logger('TrainingDate Encontradao');
+            $tamanio = count($request->toArray());
+            for ($i = 0; $i < $tamanio; $i++) {
+                logger('Empleado ' . $i, $request[$i]);
+                logger('Pivote', $request[$i]['pivot']);
+                $pivot = $request[$i]['pivot'];
+                $emp = $request[$i];
+                $trainingdate->personals()->updateExistingPivot($emp, $pivot);
+            }
+            return response($request,200);
+        }
+        return response()->json(['Error' => 'Curso no localizado'],404);
     }
 
     /**
