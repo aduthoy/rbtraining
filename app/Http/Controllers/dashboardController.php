@@ -15,7 +15,10 @@ class dashboardController extends Controller
      */
     public function getProximosaVencerByUserId($id) {
         $fecha = today();
-        $fecha->addDays(90);
+        logger('Fecha del Sistema '.$fecha);
+        //$fecha->endOfMonth();
+        $fecha->addDays(30);
+        logger('fecha maxima endofmonth '.$fecha);
         $datos = DB::table('Training_dates')
             ->join('trainingdate_personal','Training_dates.id','=','trainingdate_personal.training_date_id')
             ->where([
@@ -36,7 +39,9 @@ class dashboardController extends Controller
      */
     public function getProximosaVencerGeneralDetalleByUserId($id) {
         $fecha = today();
-        $fecha->addDays(90);
+        $fecha->endOfMonth();
+        logger('fecha final'.$fecha);
+        //$fecha->addDays(90);
         $datos = DB::table('Training_dates')
             ->join('trainingdate_personal','Training_dates.id','=','trainingdate_personal.training_date_id')
             ->join('general_trainings','Training_dates.general_training_id', '=', 'general_trainings.id')
@@ -45,7 +50,7 @@ class dashboardController extends Controller
                 ['trainingdate_personal.personal_id','=',$id],
                 ['Training_dates.initial_date','<=',$fecha]
             ])
-            ->orderBy('training_dates.initial_date')
+            ->orderBy('training_dates.initial_date','asc')
             ->get();
         return response($datos,200);
     }
@@ -56,7 +61,8 @@ class dashboardController extends Controller
      */
     public function getProximosaVencerEspecificoDetalleByUserId($id) {
         $fecha = today();
-        $fecha->addDays(90);
+        $fecha->endOfMonth();
+        //$fecha->addDays(90);
         $datos = DB::table('Training_dates')
             ->join('trainingdate_personal','Training_dates.id','=','trainingdate_personal.training_date_id')
             ->join('specific_trainings','Training_dates.specific_training_id', '=', 'specific_trainings.id')
@@ -79,7 +85,8 @@ class dashboardController extends Controller
      */
     public function getProximosaVencerPDMDetalleByUserId($id) {
         $fecha = today();
-        $fecha->addDays(90);
+        $fecha->endOfQuarter();
+        //$fecha->addDays(90);
         $datos = DB::table('Training_dates')
             ->join('trainingdate_personal','Training_dates.id','=','trainingdate_personal.training_date_id')
             ->join('pdms','Training_dates.pdms_id', '=', 'pdms.id')

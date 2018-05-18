@@ -90,6 +90,6 @@ class AuthController extends Controller
             }
             return response()->json(['Error' => 'Ocurrio un error no ducmentado al actualizar al usuario'],500);
         }
-        return response()->json(['Error' => 'Usuario no existe'],200);
+        return response()->json(['Error' => 'Usuario no existe'],404);
     }
 }

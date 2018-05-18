@@ -103,4 +103,24 @@ class GeneralTrainingController extends Controller
         }
         return Response($id, 404);
     }
+
+
+    /**
+     * Regresa todos los cursos activos.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getAllActiveGeneralTrainings()
+    {
+        logger('Estoy en getAllActiveGeneralTrainings');
+        //return Response('Estoy en getAllActiveGeneralTrainings',200);
+        $curso = GeneralTraining::where('estatus_curso','=',1)
+            ->get();
+        /*$curso = DB::Table('general_trainings')
+            ->where([
+                ['general_trainings.estatus_curso','=',1]
+            ])
+            ->get();*/
+        return Response($curso,200);
+    }
 }

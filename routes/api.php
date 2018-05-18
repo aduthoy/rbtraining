@@ -22,7 +22,9 @@ Route::group(['middleware' => 'cors'], function () {
     Route::resource('specifctrainings','SpecificTrainingController');
     Route::resource('pdms','PdmsController');
     Route::resource('areas','AreasController');
+
     /*Route::resource('subareas','SubAreasController');*/
+
     Route::resource('puestos','PuestosController');
     Route::get('areas/{area}/puestos','PuestosController@getPuestosByArea');
     Route::resource('personal','PersonalController');
@@ -59,6 +61,12 @@ Route::group(['middleware' => 'cors'], function () {
     Route::get('dashboard/getCursadosPDMDetalleByUserId/{userId}','DashboardController@getCursadosPDMDetalleByUserId');
     Route::post('user/getUserInfoByEMail','Auth\AuthController@getUserInfoByEMail');
     Route::put('user/updateUserById/{userId}','Auth\AuthController@updateUserById');
+
+    /**
+     * Rutas adicionales
+     */
+
+    Route::get('generaltrainings/getAllActiveGeneralTrainings','GeneralTrainingController@getAllActiveGeneralTrainings');
 
     /**
      * Rutas para autentificacion del usuario
