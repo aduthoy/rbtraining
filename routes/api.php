@@ -69,8 +69,15 @@ Route::group(['middleware' => 'cors'], function () {
     Route::get('generaltrainings/getAllActiveGeneralTrainings','GeneralTrainingController@getAllActiveGeneralTrainings');
 
     /**
+     * Rutas Consultas
+     */
+
+    Route::post('consultas/getGenearlTrainingQuery','ConsultarController@getGenearlTrainingQuery');
+
+    /**
      * Rutas para autentificacion del usuario
      */
 
     Route::post('authenticate','Auth\AuthController@authenticate');
+    Route::post('authenticate/user','Auth\AuthController@create');
 });

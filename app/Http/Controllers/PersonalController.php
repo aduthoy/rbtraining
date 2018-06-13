@@ -159,4 +159,16 @@ class PersonalController extends Controller
         return response($personal,200);
     }
 
+    public function getPersonalByIdEmpleado($id) {
+        $personal = DB::table('personals')
+            ->where('idEmpleado','=',$id)
+            ->get();
+        if ($personal) {
+            return response($personal,200);
+        }
+        else {
+            return response()->json(['Error' => 'Empleado no localizado'],404);
+        }
+    }
+
 }

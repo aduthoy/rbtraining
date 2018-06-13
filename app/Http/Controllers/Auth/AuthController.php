@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 
+use App\Http\Controllers\PersonalController;
+use App\personal;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
@@ -53,16 +56,50 @@ class AuthController extends Controller
     /**
      * create a new user instance after a valid registration.
      *
-     * @param array $data
+     * @param Request $data
      * @return User
      */
-    protected function create(array $data)
+    protected function create(Request $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
+
+
+        $userinfo = DB::table('personals')
+            ->where('idEmpleado','=',$data->employeeid)
+            ->get();
+
+        /*$userinfo = personal::where('idEmpleado','=',$data->employeeid);*/
+        logger('*********************************************');
+        logger('******Creando Usuario Nuevo al Sistema*******');
+        logger('*********************************************');
+        logger('Datos en Parametro $data: ', $data->toArray());
+        logger('Nombre el empeleado: '.$userinfo[0]->nombre);
+        logger('Numero de Nomina: '.$userinfo[0]->idEmpleado);
+        if ($userinfo) {
+            if ((strtolower($data->employeeName) == strtolower($userinfo[0]->nombre)) &&
+                (strtolower($data->employeeid) == strtolower($userinfo[0]->idEmpleado))) {
+                logger('Si Coincide la info crear -> Crear Usuario');
+                if ($this->getUserInfoByEMail($data)) {
+                    logger('USUARIO YA ESTA DADO DE ALTA');
+                    return response()->json(['Error' => 'Email ya dado de alta'], 401);
+                }
+                return
+                    User::create([
+                    'name' => $data->employeeName,
+                    'email' => $data->email,
+                    'password' => bcrypt($data->password),
+                    'administrador' => $data->administrador,
+                    'employeeId' => $data->employeeid,
+                ]);
+            }
+            else {
+                logger('No coincide la información del empleado');
+                return response()->json(['Error' => 'Empleado no Existe o no Coninice la Información'],401);
+            }
+        }
+        else {
+            return response()->json(['Error' => 'Empleado no existe'],404);
+        }
+        logger('*********************************************');
     }
 
     /**
@@ -92,4 +129,5 @@ class AuthController extends Controller
         }
         return response()->json(['Error' => 'Usuario no existe'],404);
     }
+
 }
