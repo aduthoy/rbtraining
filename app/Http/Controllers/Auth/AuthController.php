@@ -96,8 +96,8 @@ class AuthController extends Controller
                 return response()->json(['Error' => 'Empleado no Existe o no Coninice la Información'],401);
             }
         }
-        return response()->json(['Error' => 'Empleado no existe'],404);
         logger('*********************************************');
+        return response()->json(['Error' => 'Empleado no existe'],404);
     }
 
     /**
